@@ -34,7 +34,7 @@ connectDB();
 app.use(express.json()); // Global middleware that allows us to parse JSON bodies
 const allowedOrigins = [
   'http://localhost:5173', // Your local Vite dev server
-  'https://your-frontend-domain.vercel.app' // Replace this with your actual Vercel URL once deployed
+  'https://url-shortener-backend-henna-psi.vercel.app' // Replace this with your actual Vercel URL once deployed
 ];
 
 app.use(cors({
