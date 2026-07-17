@@ -40,14 +40,16 @@ const allowedOrigins = [
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
+    if (origin.includes('vercel.app') || origin.includes('localhost')) {
+      return callback(null, true);
+    } else {
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
-    return callback(null, true);
   },
   credentials: true
 }));
+
 //Authentication routing
 app.use('/api', require('./routes/registration'));
 app.use('/api', require('./routes/login'));
