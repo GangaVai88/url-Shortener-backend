@@ -11,7 +11,8 @@ function Dashboard({token}) {
     setError('');
     setTrack(true);
     try {
-      const response = await fetch('http://localhost:5000/api/shorten', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${API_BASE_URL}/api/shorten`, {
         method: 'POST',
         headers: { 
             'Content-Type': 'application/json' , 
@@ -48,12 +49,12 @@ function Dashboard({token}) {
         <div className="mt-2 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-center text-sm animate-fade-in">
           <span className="text-emerald-400 block mb-1 font-medium">URL Shortened Successfully!</span>
           <a
-            href={`http://localhost:5000/${serverData.urlCode}`}
+            href={`${API_BASE_URL}/${serverData.urlCode}`}
             target="_blank"
             rel="noreferrer"
             className="text-blue-400 hover:text-blue-300 font-medium break-all underline decoration-blue-400/30 hover:decoration-blue-300 dynamic-link target-new-tab"
           >
-            http://localhost:5000/{serverData.urlCode}
+            {API_BASE_URL}/{serverData.urlCode}
           </a>
         </div>
       )}
