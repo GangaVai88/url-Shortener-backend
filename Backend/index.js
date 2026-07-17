@@ -32,7 +32,22 @@ async function connectDB(){
 connectDB();
 
 app.use(express.json()); // Global middleware that allows us to parse JSON bodies
-app.use(cors());//Passing an empty parameter means any website can access my backend. Not good for live production grade code.
+const allowedOrigins = [
+  'http://localhost:5173', // Your local Vite dev server
+  'https://your-frontend-domain.vercel.app' // Replace this with your actual Vercel URL once deployed
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true
+}));
 //Authentication routing
 app.use('/api', require('./routes/registration'));
 app.use('/api', require('./routes/login'));
@@ -100,7 +115,7 @@ app.use((err,req,res,next) => {
     });
 })
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`The server is running on port ${PORT}`);
